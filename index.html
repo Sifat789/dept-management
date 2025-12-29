@@ -1,11 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MBSTU Class Schedule</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
+
 <body>
-    <h1>hello world</h1>
+
+    <div id="login-section" class="container">
+        <h1>MBSTU Schedule Portal</h1>
+        <p>Login with your official @mbstu.ac.bd email</p>
+        <button id="login-btn" class="btn primary">Login with Google</button>
+    </div>
+
+    <div id="dashboard-section" class="hidden">
+        <header>
+            <div class="user-info">
+                <h2><span id="user-name">Loading...</span> (<span id="user-role">...</span>)</h2>
+            </div>
+            <button id="logout-btn" class="btn danger">Logout</button>
+        </header>
+
+        <div class="controls-bar"
+            style="background:#f8f9fa; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #ddd;">
+            <div style="display:flex; gap:15px; align-items:flex-end; flex-wrap:wrap;">
+
+                <div>
+                    <label style="font-weight:bold; display:block; margin-bottom:5px;">📅 View Date</label>
+                    <input type="date" id="view-date-picker" style="padding:8px;">
+                </div>
+
+                <div>
+                    <label style="font-weight:bold; display:block; margin-bottom:5px;">🎓 Batch</label>
+                    <select id="filter-batch" style="padding:8px; min-width:100px;">
+                        <option value="18">Batch 18</option>
+                        <option value="19">Batch 19</option>
+                        <option value="20">Batch 20</option>
+                        <option value="21">Batch 21</option>
+                        <option value="all">All Batches</option>
+                    </select>
+                </div>
+
+                <div id="teacher-filter-container" class="hidden">
+                    <label style="font-weight:bold; display:block; margin-bottom:5px;">👨‍🏫 Teacher</label>
+                    <select id="filter-teacher" style="padding:8px;">
+                        <option value="me">My Classes</option>
+                        <option value="all">All Teachers</option>
+                    </select>
+                </div>
+                <button id="add-class-btn" class="btn hidden" style="background:#6f42c1; color:white;">+ Add
+                    Class</button>
+                <button id="load-routine-btn" class="btn primary">🔄 Refresh List</button>
+            </div>
+        </div>
+
+        <div class="schedule-container">
+            <h3 id="current-view-label">Classes for Today</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Batch</th>
+                        <th>Course</th>
+                        <th>Teacher</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="admin-panel" class="hidden" style="margin-top:30px; border-top:1px solid #eee; padding-top:20px;">
+            <h4>Admin: Add Static Routine Item</h4>
+            <form id="add-routine-form" style="display:flex; gap:10px; flex-wrap:wrap;">
+                <select id="r-day">
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
+                <input type="time" id="r-time" required>
+                <input type="text" id="r-subject" placeholder="Subject" required>
+                <input type="text" id="r-code" placeholder="Code (ICT-101)" required>
+                <input type="text" id="r-teacher" placeholder="Teacher Name" required>
+                <input type="text" id="r-batch" placeholder="Batch" required>
+                <button type="submit" class="btn primary">Add to Routine</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="update-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Update Class</h3>
+            <p id="modal-class-summary"></p>
+            <select id="modal-status-select" style="width:100%; padding:8px;">
+                <option value="Scheduled">Active</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Rescheduled">Rescheduled</option>
+            </select>
+
+            <div id="modal-time-container" class="hidden" style="margin-top:10px;">
+                <label>New Date & Time:</label>
+                <input type="datetime-local" id="modal-new-time" style="width:100%;">
+            </div>
+
+            <div style="margin-top:15px; text-align:right;">
+                <button id="modal-cancel-btn" class="btn danger">Close</button>
+                <button id="modal-save-btn" class="btn primary">Save Update</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="update-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Update Class Status</h3>
+            <p id="modal-class-summary" style="color:gray; font-size:0.9em; margin-bottom:15px;"></p>
+
+            <label><strong>New Status:</strong></label>
+            <select id="modal-status-select" style="width:100%; padding:8px; margin-top:5px;">
+                <option value="Scheduled">Scheduled (Active)</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Rescheduled">Rescheduled</option>
+            </select>
+
+            <div id="modal-time-container" class="hidden" style="margin-top:15px;">
+                <label><strong>Select New Time:</strong></label>
+                <input type="datetime-local" id="modal-new-time" style="width:100%; padding:8px; margin-top:5px;">
+            </div>
+
+            <div class="modal-actions" style="margin-top:20px; text-align:right;">
+                <button id="modal-cancel-btn" class="btn danger">Cancel</button>
+                <button id="modal-save-btn" class="btn primary">Save Update</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>➕ Add Extra Class</h3>
+
+            <label>Subject Name:</label>
+            <input type="text" id="add-subject" placeholder="e.g. Extra Class / Lab">
+
+            <label>Course Code:</label>
+            <input type="text" id="add-code" placeholder="e.g. ICT 1111">
+
+            <label>Batch:</label>
+            <select id="add-batch">
+                <option value="18">Batch 18</option>
+                <option value="19">Batch 19</option>
+                <option value="20">Batch 20</option>
+                <option value="21">Batch 21</option>
+                <option value="22">Batch 22</option>
+            </select>
+
+            <label>Date & Time:</label>
+            <input type="date" id="add-date">
+            <input type="time" id="add-time">
+
+            <div class="modal-actions">
+                <button id="add-save-btn" class="btn green">Create Class</button>
+                <button id="add-cancel-btn" class="btn red">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="app.js"></script>
 </body>
+
 </html>
