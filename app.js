@@ -16,7 +16,7 @@ const EMAILJS_TEMPLATE_ID = "template_7893r9f";
 const EMAILJS_PUBLIC_KEY = "AcQu3AbBS6dxpzyQd";  
 
 // --- 🔒 SECURITY CONFIG ---
-const ALLOWED_DOMAIN = "@gmail.com"; // Only emails ending with this can login
+const ALLOWED_DOMAIN = "@mbstu.ac.bd"; // Only emails ending with this can login
 
 // --- DEBUG LOGGER ---
 function debugLog(msg, data = null) {
