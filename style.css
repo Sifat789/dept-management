@@ -1,106 +1,276 @@
-body { font-family: 'Segoe UI', sans-serif; background: #f4f6f8; margin: 0; padding: 20px; }
-.container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-.hidden { display: none !important; }
+/* --- 1. GLOBAL VARIABLES & RESET --- */
+    :root {
+        --primary: #2c3e50;
+        --accent: #3498db;
+        --accent-hover: #2980b9;
+        --bg-color: #f4f7f6;
+        --text-color: #333;
+        --white: #ffffff;
+        --shadow: 0 4px 6px rgba(0,0,0,0.05);
+        --border-radius: 8px;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        margin: 0;
+        padding: 0;
+        color: var(--text-color);
+        padding-bottom: 50px; /* Space for scrolling */
+    }
 
-/* Header */
-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-.badge { background: #007bff; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 10px; }
+    /* --- 2. HEADER --- */
+    header {
+        background: var(--white);
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-/* --- BUTTON STYLES --- */
-.btn {
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    font-family: inherit;
-}
+    .logo {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--primary);
+        letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--accent); }
 
-/* 1. The "+ Add Class" Button (Vibrant Purple) */
-#add-class-btn {
-    background-color: #8e44ad;
-    color: white;
-    box-shadow: 0 4px 0 #732d91; /* 3D effect */
-    margin-left: 15px;
-}
-#add-class-btn:hover {
-    background-color: #9b59b6;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 #732d91;
-}
-#add-class-btn:active {
-    transform: translateY(2px);
-    box-shadow: none;
-}
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+    }
+    
+    /* Batch Selector in Header */
+    #student-batch-selector {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        background: #f8f9fa;
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        outline: none;
+    }
 
-/* 2. The Table "Edit" Button (Bright Blue) */
-.btn.small {
-    padding: 6px 14px;
-    font-size: 0.85em;
-    background-color: #3498db;
-    color: white;
-    border-radius: 4px;
-}
-.btn.small:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
+    /* --- 3. CONTROLS BAR --- */
+    .controls {
+        background: var(--white);
+        width: 90%;
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 15px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+    }
 
-/* 3. Modal Actions (Green Save / Red Cancel) */
-.btn.green { background-color: #27ae60; color: white; }
-.btn.green:hover { background-color: #2ecc71; }
+    .controls input, .controls select {
+        padding: 10px;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        flex: 1; /* Grow to fill space */
+        min-width: 150px;
+    }
 
-.btn.red { background-color: #c0392b; color: white; }
-.btn.red:hover { background-color: #e74c3c; }
+    /* --- 4. BUTTONS --- */
+    .btn {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.1s ease, background 0.2s;
+        font-size: 0.9rem;
+    }
+    .btn:active { transform: scale(0.96); }
 
-/* 4. Login/Logout Buttons */
-#login-btn { background-color: #2c3e50; color: white; }
-#logout-btn { background-color: #e74c3c; color: white; }
+    #login-btn { background: var(--primary); color: white; }
+    #logout-btn { background: #ffebee; color: #c62828; }
+    #load-routine-btn { background: var(--accent); color: white; }
+    #add-class-btn { background: #8e44ad; color: white; box-shadow: 0 4px 0 #71368a; }
+    #add-class-btn:active { transform: translateY(4px); box-shadow: none; }
+    
+    /* Edit Button (Small) */
+    .btn.small {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        background: #e2e8f0;
+        color: #475569;
+    }
+    .btn.small:hover { background: #cbd5e1; }
 
-/* Filters */
-.filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-input, select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+    /* --- 5. DATA TABLE (PC View) --- */
+    .table-container {
+        width: 90%;
+        max-width: 900px;
+        margin: 0 auto;
+        overflow-x: auto; /* Handle overflow */
+    }
 
-/* Table */
-.table-wrapper { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-th { background-color: #f8f9fa; }
-tr.cancelled { background-color: #ffeef0; color: #a00; text-decoration: line-through; }
-tr.rescheduled { background-color: #fff8e1; color: #856404; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--white);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
 
-/* Modal */
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; }
-.modal-content { background: white; padding: 20px; border-radius: 8px; width: 300px; }
-.modal-actions { margin-top: 15px; display: flex; justify-content: space-between; }
-#notification-area { margin-bottom: 15px; color: #d63384; font-weight: bold; }
+    th {
+        background: #f8fafc;
+        color: #64748b;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        padding: 15px;
+        text-align: left;
+        border-bottom: 2px solid #e2e8f0;
+    }
 
+    td {
+        padding: 15px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+        color: #334155;
+    }
 
+    tr:hover { background-color: #f8fafc; }
 
-/* Modal Overlay */
-.modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5); /* Dimmed background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
+    /* Highlight Rescheduled Rows */
+    tr[style*="background-color"] {
+        background-color: #fffbeb !important; /* Gentle yellow */
+    }
 
-/* Modal Box */
-.modal-content {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
+    /* --- 6. MODALS --- */
+    .modal {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex; justify-content: center; align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(2px);
+    }
+    .modal-content {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        animation: slideUp 0.3s ease-out;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-.modal.hidden {
-    display: none !important;
-}
+    .modal input, .modal select { width: 100%; padding: 12px; margin: 8px 0 16px 0; border: 1px solid #cbd5e1; border-radius: 6px; display: block; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
+    .modal-actions .btn { flex: 1; }
+    .btn.green { background: #10b981; color: white; }
+    .btn.red { background: #ef4444; color: white; }
+    .hidden { display: none !important; }
+
+    /* --- 7. MOBILE RESPONSIVE (Card Transformation) --- */
+    @media (max-width: 768px) {
+        /* Header Stack */
+        header { flex-direction: column; gap: 10px; text-align: center; }
+        .user-info { flex-direction: column; width: 100%; }
+        #student-batch-selector { width: 100%; margin-top: 5px; text-align: center; text-align-last: center; }
+
+        /* Controls Stack */
+        .controls { flex-direction: column; width: 95%; padding: 10px; gap: 8px; }
+        .controls input, .controls button { width: 100%; }
+
+        /* TABLE -> CARDS */
+        thead { display: none; }
+        table, tbody, th, td, tr { display: block; width: 100%; }
+        
+        table { background: transparent; box-shadow: none; } /* Remove table bg */
+
+        tr {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            position: relative; /* For absolute positioning */
+        }
+
+        /* The Columns */
+        td {
+            padding: 5px 10px;
+            border: none;
+            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Labels via CSS Content */
+        td:before {
+            content: attr(data-label); /* Fallback */
+            font-weight: 700;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* Specific Column Styling */
+        /* 1. Time (Make it Big & Bold at top) */
+        td:nth-of-type(1) {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            justify-content: flex-start; /* Align Left */
+            padding-bottom: 5px;
+        }
+        td:nth-of-type(1):before { content: ""; display: none; } /* Hide label for Time */
+
+        /* 2. Batch (Absolute Badge Top Right) */
+        td:nth-of-type(2) {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            width: auto;
+            justify-content: center;
+        }
+        td:nth-of-type(2):before { content: ""; display: none; }
+
+        /* 3. Subject */
+        td:nth-of-type(3) {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            justify-content: flex-start;
+        }
+        td:nth-of-type(3):before { content: ""; display: none; }
+
+        /* 4. Teacher & 5. Status */
+        td:nth-of-type(4):before { content: "Teacher:"; margin-right: 10px; }
+        td:nth-of-type(5):before { content: "Status:"; margin-right: 10px; }
+
+        /* 6. Action Button */
+        td:nth-of-type(6) {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+            justify-content: flex-end;
+        }
+        td:nth-of-type(6):before { display: none; }
+    }
