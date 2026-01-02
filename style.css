@@ -1,276 +1,802 @@
-/* --- 1. GLOBAL VARIABLES & RESET --- */
-    :root {
-        --primary: #2c3e50;
-        --accent: #3498db;
-        --accent-hover: #2980b9;
-        --bg-color: #f4f7f6;
-        --text-color: #333;
-        --white: #ffffff;
-        --shadow: 0 4px 6px rgba(0,0,0,0.05);
-        --border-radius: 8px;
-    }
-    
-    * { box-sizing: border-box; }
-    
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--bg-color);
-        margin: 0;
-        padding: 0;
-        color: var(--text-color);
-        padding-bottom: 50px; /* Space for scrolling */
-    }
+/* ==================== ENHANCED FRONTEND DECORATION (AQUA THEME) ==================== */
 
-    /* --- 2. HEADER --- */
+/* --- 1. ENHANCED GLOBAL VARIABLES & THEME --- */
+:root {
+    --primary: #006d77;
+    --accent: #00a8cc;
+    --accent-hover: #0097b2;
+    --bg-color: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+    --text-color: #004d40;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --shadow: 0 8px 30px rgba(0, 109, 119, 0.15);
+    --shadow-hover: 0 12px 40px rgba(0, 109, 119, 0.25);
+    --border-radius: 16px;
+    --card-radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --gradient-primary: linear-gradient(135deg, #00a8cc 0%, #006d77 100%);
+    --gradient-accent: linear-gradient(135deg, #0097b2 0%, #00a8cc 100%);
+    --aqua-light: #e0f7fa;
+    --aqua-medium: #80deea;
+    --aqua-dark: #00acc1;
+}
+
+/* Smooth scrolling and selection */
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background: rgba(0, 168, 204, 0.3);
+    color: var(--primary);
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    padding-bottom: 50px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Water wave background pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 168, 204, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(0, 109, 119, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(128, 222, 234, 0.05) 0%, transparent 30%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- 2. ENHANCED HEADER (Aqua Theme) --- */
+header {
+    background: rgba(224, 247, 250, 0.95);
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--aqua-medium);
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo::before {
+    content: '🌊';
+    font-size: 1.8rem;
+}
+
+.logo span {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.95rem;
+}
+
+.user-info h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#user-role {
+    background: var(--gradient-accent);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- 3. ENHANCED LOGIN SECTION (Aqua Theme) --- */
+#login-section {
+    max-width: 480px;
+    margin: 80px auto;
+    padding: 50px 40px;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    border: 2px solid var(--aqua-medium);
+    animation: fadeIn 0.6s ease-out;
+    backdrop-filter: blur(5px);
+}
+
+#login-section h1 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#login-section p {
+    color: #006064;
+    margin-bottom: 35px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* --- 4. ENHANCED CONTROLS BAR (Aqua Theme) --- */
+.controls-bar {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    margin: 25px auto;
+    max-width: 1200px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--aqua-medium);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+.controls-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-accent);
+}
+
+.controls-bar > div {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.controls-bar > div > div {
+    flex: 1;
+    min-width: 180px;
+}
+
+.controls-bar label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+    color: #006064;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.controls-bar input,
+.controls-bar select {
+    padding: 12px 16px;
+    border: 2px solid var(--aqua-medium);
+    border-radius: 10px;
+    width: 100%;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: rgba(224, 247, 250, 0.5);
+    color: var(--text-color);
+}
+
+.controls-bar input:focus,
+.controls-bar select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 168, 204, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* --- 5. ENHANCED BUTTONS (Aqua Theme) --- */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.btn:active::after {
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+.btn.primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 168, 204, 0.3);
+}
+
+.btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 168, 204, 0.4);
+}
+
+.btn.danger {
+    background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
+}
+
+.btn.danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 82, 82, 0.4);
+}
+
+.btn.small {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, var(--aqua-light) 0%, var(--aqua-medium) 100%);
+    color: #006064;
+    border-radius: 8px;
+    border: 1px solid var(--aqua-medium);
+}
+
+.btn.small:hover {
+    background: linear-gradient(135deg, var(--aqua-medium) 0%, var(--aqua-dark) 100%);
+    color: white;
+    transform: translateY(-1px);
+}
+
+#add-class-btn {
+    background: var(--gradient-accent);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 168, 204, 0.3);
+}
+
+#add-class-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 168, 204, 0.4);
+}
+
+/* --- 6. ENHANCED SCHEDULE TABLE (Aqua Theme) --- */
+.schedule-container {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 25px auto;
+    max-width: 1200px;
+    overflow: hidden;
+    border: 2px solid var(--aqua-medium);
+    backdrop-filter: blur(5px);
+}
+
+.schedule-container h3 {
+    padding: 25px 30px 20px;
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--primary);
+    background: linear-gradient(to right, transparent, rgba(178, 235, 242, 0.3), transparent);
+    border-bottom: 2px solid var(--aqua-medium);
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: transparent;
+}
+
+thead {
+    background: linear-gradient(135deg, rgba(178, 235, 242, 0.5) 0%, rgba(128, 222, 234, 0.3) 100%);
+}
+
+th {
+    padding: 18px 20px;
+    color: #006064;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--aqua-medium);
+    text-align: left;
+    position: relative;
+}
+
+th:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 60%;
+    background: linear-gradient(to bottom, transparent, var(--aqua-dark), transparent);
+}
+
+td {
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(128, 222, 234, 0.3);
+    color: #004d40;
+    transition: var(--transition);
+}
+
+tr {
+    transition: var(--transition);
+}
+
+tr:hover {
+    background-color: rgba(224, 247, 250, 0.3);
+    transform: translateX(4px);
+}
+
+/* Enhanced status indicators */
+td:nth-child(5) {
+    font-weight: 600;
+}
+
+td:nth-child(5):contains('Rescheduled') {
+    color: #b26a00;
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid #ffd166;
+}
+
+td:nth-child(5):contains('Cancelled') {
+    color: #c62828;
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid #ef9a9a;
+}
+
+/* --- 7. ENHANCED MODALS (Aqua Theme) --- */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 109, 119, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 35px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 450px;
+    box-shadow: var(--shadow-hover);
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border: 2px solid var(--aqua-medium);
+    backdrop-filter: blur(10px);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.modal h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    color: var(--primary);
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 14px 16px;
+    margin: 8px 0 20px 0;
+    border: 2px solid var(--aqua-medium);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: rgba(224, 247, 250, 0.5);
+    color: var(--text-color);
+}
+
+.modal input:focus,
+.modal select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 168, 204, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal-actions .btn {
+    flex: 1;
+    padding: 14px;
+}
+
+.btn.green {
+    background: linear-gradient(135deg, #00c853 0%, #00a844 100%);
+    color: white;
+}
+
+.btn.red {
+    background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+    color: white;
+}
+
+/* --- 8. ENHANCED MOBILE VIEW (Aqua Theme) --- */
+@media (max-width: 768px) {
+    /* Header adjustments */
     header {
-        background: var(--white);
         padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: var(--shadow);
-        position: sticky;
-        top: 0;
-        z-index: 100;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        background: rgba(224, 247, 250, 0.98);
     }
-
-    .logo {
-        font-size: 1.4rem;
+    
+    .user-info {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Controls bar stacking */
+    .controls-bar {
+        padding: 20px;
+        margin: 15px;
+    }
+    
+    .controls-bar > div {
+        gap: 15px;
+    }
+    
+    .controls-bar > div > div {
+        min-width: 100%;
+    }
+    
+    /* Enhanced mobile cards */
+    tr {
+        background: var(--card-bg);
+        margin-bottom: 20px;
+        border-radius: var(--card-radius);
+        box-shadow: 0 4px 12px rgba(0, 109, 119, 0.1);
+        border: 2px solid var(--aqua-medium);
+        padding: 15px;
+        position: relative;
+        transition: var(--transition);
+    }
+    
+    tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 109, 119, 0.2);
+    }
+    
+    /* Time styling for mobile */
+    td:nth-of-type(1) {
+        font-size: 1.3rem;
         font-weight: 800;
         color: var(--primary);
-        letter-spacing: -0.5px;
-    }
-    .logo span { color: var(--accent); }
-
-    .user-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.9rem;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--aqua-medium);
+        margin-bottom: 10px;
     }
     
-    /* Batch Selector in Header */
-    #student-batch-selector {
-        padding: 5px 10px;
-        border: 1px solid #ddd;
-        border-radius: 20px;
-        background: #f8f9fa;
-        color: var(--primary);
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        outline: none;
-    }
-
-    /* --- 3. CONTROLS BAR --- */
-    .controls {
-        background: var(--white);
-        width: 90%;
-        max-width: 900px;
-        margin: 20px auto;
-        padding: 15px;
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow);
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        align-items: center;
-    }
-
-    .controls input, .controls select {
-        padding: 10px;
-        border: 1px solid #e1e4e8;
-        border-radius: 6px;
-        flex: 1; /* Grow to fill space */
-        min-width: 150px;
-    }
-
-    /* --- 4. BUTTONS --- */
-    .btn {
-        padding: 10px 18px;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: transform 0.1s ease, background 0.2s;
-        font-size: 0.9rem;
-    }
-    .btn:active { transform: scale(0.96); }
-
-    #login-btn { background: var(--primary); color: white; }
-    #logout-btn { background: #ffebee; color: #c62828; }
-    #load-routine-btn { background: var(--accent); color: white; }
-    #add-class-btn { background: #8e44ad; color: white; box-shadow: 0 4px 0 #71368a; }
-    #add-class-btn:active { transform: translateY(4px); box-shadow: none; }
-    
-    /* Edit Button (Small) */
-    .btn.small {
+    /* Batch badge for mobile */
+    td:nth-of-type(2) {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--gradient-primary);
+        color: white;
         padding: 6px 12px;
+        border-radius: 20px;
         font-size: 0.8rem;
-        background: #e2e8f0;
-        color: #475569;
-    }
-    .btn.small:hover { background: #cbd5e1; }
-
-    /* --- 5. DATA TABLE (PC View) --- */
-    .table-container {
-        width: 90%;
-        max-width: 900px;
-        margin: 0 auto;
-        overflow-x: auto; /* Handle overflow */
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: var(--white);
-        border-radius: var(--border-radius);
-        overflow: hidden;
-        box-shadow: var(--shadow);
-    }
-
-    th {
-        background: #f8fafc;
-        color: #64748b;
         font-weight: 700;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        padding: 15px;
-        text-align: left;
-        border-bottom: 2px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0, 168, 204, 0.3);
     }
-
-    td {
-        padding: 15px;
-        border-bottom: 1px solid #f1f5f9;
-        vertical-align: middle;
-        color: #334155;
+    
+    /* Action button area */
+    td:nth-of-type(6) {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px dashed var(--aqua-medium);
     }
-
-    tr:hover { background-color: #f8fafc; }
-
-    /* Highlight Rescheduled Rows */
-    tr[style*="background-color"] {
-        background-color: #fffbeb !important; /* Gentle yellow */
-    }
-
-    /* --- 6. MODALS --- */
-    .modal {
-        position: fixed; inset: 0;
-        background: rgba(0,0,0,0.5);
-        display: flex; justify-content: center; align-items: center;
-        z-index: 1000;
-        backdrop-filter: blur(2px);
-    }
+    
+    /* Modal adjustments */
     .modal-content {
-        background: white;
         padding: 25px;
-        border-radius: 12px;
-        width: 90%;
-        max-width: 400px;
-        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-        animation: slideUp 0.3s ease-out;
+        margin: 20px;
     }
-    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+}
 
-    .modal input, .modal select { width: 100%; padding: 12px; margin: 8px 0 16px 0; border: 1px solid #cbd5e1; border-radius: 6px; display: block; }
-    .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
-    .modal-actions .btn { flex: 1; }
-    .btn.green { background: #10b981; color: white; }
-    .btn.red { background: #ef4444; color: white; }
-    .hidden { display: none !important; }
+/* --- 9. ANIMATIONS & MICRO-INTERACTIONS --- */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
 
-    /* --- 7. MOBILE RESPONSIVE (Card Transformation) --- */
-    @media (max-width: 768px) {
-        /* Header Stack */
-        header { flex-direction: column; gap: 10px; text-align: center; }
-        .user-info { flex-direction: column; width: 100%; }
-        #student-batch-selector { width: 100%; margin-top: 5px; text-align: center; text-align-last: center; }
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
 
-        /* Controls Stack */
-        .controls { flex-direction: column; width: 95%; padding: 10px; gap: 8px; }
-        .controls input, .controls button { width: 100%; }
+/* Smooth fade in for elements */
+[class*="fade-in"] {
+    animation: fadeIn 0.6s ease-out;
+}
 
-        /* TABLE -> CARDS */
-        thead { display: none; }
-        table, tbody, th, td, tr { display: block; width: 100%; }
-        
-        table { background: transparent; box-shadow: none; } /* Remove table bg */
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
 
-        tr {
-            background: white;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-            padding: 10px;
-            position: relative; /* For absolute positioning */
-        }
+::-webkit-scrollbar-track {
+    background: rgba(178, 235, 242, 0.3);
+    border-radius: 5px;
+}
 
-        /* The Columns */
-        td {
-            padding: 5px 10px;
-            border: none;
-            text-align: right;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--aqua-medium) 0%, var(--aqua-dark) 100%);
+    border-radius: 5px;
+}
 
-        /* Labels via CSS Content */
-        td:before {
-            content: attr(data-label); /* Fallback */
-            font-weight: 700;
-            color: #94a3b8;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-        }
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--aqua-dark) 0%, var(--primary) 100%);
+}
 
-        /* Specific Column Styling */
-        /* 1. Time (Make it Big & Bold at top) */
-        td:nth-of-type(1) {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--primary);
-            justify-content: flex-start; /* Align Left */
-            padding-bottom: 5px;
-        }
-        td:nth-of-type(1):before { content: ""; display: none; } /* Hide label for Time */
+/* --- 10. STATUS BADGES --- */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-        /* 2. Batch (Absolute Badge Top Right) */
-        td:nth-of-type(2) {
-            position: absolute;
-            top: 10px; right: 10px;
-            background: #e0f2fe;
-            color: #0369a1;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            width: auto;
-            justify-content: center;
-        }
-        td:nth-of-type(2):before { content: ""; display: none; }
+.status-scheduled {
+    background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
+    color: #0d47a1;
+    border: 1px solid #64b5f6;
+}
 
-        /* 3. Subject */
-        td:nth-of-type(3) {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1e293b;
-            justify-content: flex-start;
-        }
-        td:nth-of-type(3):before { content: ""; display: none; }
+.status-rescheduled {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    color: #b26a00;
+    border: 1px solid #ffd166;
+}
 
-        /* 4. Teacher & 5. Status */
-        td:nth-of-type(4):before { content: "Teacher:"; margin-right: 10px; }
-        td:nth-of-type(5):before { content: "Status:"; margin-right: 10px; }
+.status-cancelled {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
 
-        /* 6. Action Button */
-        td:nth-of-type(6) {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #e2e8f0;
-            justify-content: flex-end;
-        }
-        td:nth-of-type(6):before { display: none; }
+/* --- 11. ADMIN PANEL ENHANCEMENT (Aqua Theme) --- */
+#admin-panel {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 30px auto;
+    max-width: 1200px;
+    padding: 30px;
+    border-top: 4px solid var(--accent);
+    border: 2px solid var(--aqua-medium);
+    backdrop-filter: blur(5px);
+}
+
+#admin-panel h4 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--primary);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#admin-panel h4::before {
+    content: '⚙️';
+}
+
+#add-routine-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    align-items: end;
+}
+
+#add-routine-form input,
+#add-routine-form select {
+    padding: 12px 16px;
+    border: 2px solid var(--aqua-medium);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: rgba(224, 247, 250, 0.5);
+    transition: var(--transition);
+    color: var(--text-color);
+}
+
+#add-routine-form input:focus,
+#add-routine-form select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 168, 204, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* --- 12. EMPTY STATE STYLING --- */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #00838f;
+}
+
+.empty-state::before {
+    content: '🌊';
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.empty-state h3 {
+    color: #006064;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- 13. RESPONSIVE TYPOGRAPHY --- */
+@media (max-width: 480px) {
+    :root {
+        --border-radius: 12px;
+        --card-radius: 10px;
     }
+    
+    body {
+        font-size: 14px;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* --- 14. AQUA THEME ENHANCEMENTS --- */
+.water-wave {
+    position: relative;
+    overflow: hidden;
+}
+
+.water-wave::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: wave 3s infinite linear;
+}
+
+@keyframes wave {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Aqua card hover effect */
+.aqua-card {
+    background: linear-gradient(135deg, rgba(224, 247, 250, 0.8) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border: 2px solid var(--aqua-medium);
+    box-shadow: 0 4px 20px rgba(0, 168, 204, 0.15);
+    transition: all 0.3s ease;
+}
+
+.aqua-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 168, 204, 0.25);
+    transform: translateY(-4px);
+    border-color: var(--aqua-dark);
+}
